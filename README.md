@@ -2,11 +2,11 @@
 This is a configuration for a simple HTTPS-only Nginx webserver using certificates from Let's Encrypt, ready to server static content.
 
 ## Usage
-1. Create an A or AAAA Record with your registrar that points to your server's public ip for both the root domain (example.org) and the `www` subdomain (www.example.org)
+1. Create an A or AAAA Record with your registrar that points to your server's public ip for both the root domain (example.com) and the `www` subdomain (www.example.com)
 
 2. Get Let's Encrypt certificates to enable HTTPS
  * Install the EFF's [CertBot](https://certbot.eff.org/) via package manager
- * Get a certificate with `certbot certonly --standalone -d example.org -d www.example.org`
+ * Get a certificate with `certbot certonly --standalone -d example.com -d www.example.com`
  * [Nginx hooks](https://certbot.eff.org/docs/using.html#renewing-certificates) `certbot renew --standalone --pre-hook "service nginx stop" --post-hook "service nginx start"`
  * Check for cert renewal every day with `crontab * 3 * * * /etc/cron.daily/renew.cert && service crond reload`
  * Generate Diffie-Helman parameters with `sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048`
@@ -15,7 +15,7 @@ This is a configuration for a simple HTTPS-only Nginx webserver using certificat
 3. Install Nginx
  * [Install Nginx via package manager](https://www.nginx.com/resources/admin-guide/installing-nginx-open-source/#prebuilt)
  * Replace the included nginx.conf with the nginx.conf in this repo
- * Change the `example.org` lines to your domain name.
+ * Change the `example.com` lines to your domain name.
  * `sudo nginx -t` to test your configuration for any errors
 
 4. Lock down the server
@@ -28,7 +28,7 @@ This is a configuration for a simple HTTPS-only Nginx webserver using certificat
  * TBD!
 
 5. Turn it on with `sudo service nginx start`
- * HTML and other public-facing content can be added to `/srv/example.org`
+ * HTML and other public-facing content can be added to `/srv/example.com`
  * Dynamic services, forwarding etc. can be added through additional location blocks in nginx.conf
 
 ### Notes
