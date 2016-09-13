@@ -33,6 +33,7 @@ This is a configuration for a simple HTTPS-only Nginx webserver using certificat
 
 ### Notes
  * The gzip_static module is already on, so [pre-compress your content](http://www.cambus.net/serving-precompressed-content-with-nginx-and-zopfli/) for better performance
+ * Let's Encrypt currently installs certs at [/etc/letsencrypt/live](https://letsencrypt.readthedocs.io/en/latest/using.html#where-certs)
 
 ### Contributing
 Open an issue if you encounter any problems or have any suggestions; I'm also open to pull requests *if they have a clear description of the changes they introduce and their purpose*.
