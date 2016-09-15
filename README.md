@@ -1,5 +1,5 @@
 # Secure-Nginx-Configuration
-This is a configuration for a simple HTTPS-only Nginx webserver using certificates from Let's Encrypt, ready to server static content.
+This is a simple HTTPS-only Nginx webserver configuration using Let's Encrypt certificates.
 
 ## Usage
 
