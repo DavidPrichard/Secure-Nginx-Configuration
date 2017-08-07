@@ -33,6 +33,7 @@ This is a simple HTTPS-only Nginx webserver configuration using Let's Encrypt ce
  * Let's Encrypt currently installs certs at [/etc/letsencrypt/live](https://letsencrypt.readthedocs.io/en/latest/using.html#where-certs)
 
 ### Where to Find Everything
+```
 root/
  │
  ├──/etc
@@ -62,6 +63,7 @@ root/
  │
  └──/srv
        └──/example.com     (this is the webroot)
+ ```
 
 ### Contributing
 Open an issue if you encounter any problems or have any suggestions; I'm also open to pull requests *if they have a clear description of the changes they introduce and their purpose*.
