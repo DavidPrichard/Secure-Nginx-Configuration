@@ -9,7 +9,7 @@ This is a simple HTTPS-only Nginx webserver configuration using Let's Encrypt ce
  * Install the EFF's [CertBot](https://certbot.eff.org/)
  * Get a certificate with `certbot certonly --standalone -d example.com -d www.example.com`
  * [Nginx hooks](https://certbot.eff.org/docs/using.html#renewing-certificates) `certbot renew --standalone --pre-hook "service nginx stop" --post-hook "service nginx start"`
- * Check for cert renewal every day with `crontab * 3 * * * /etc/cron.daily/renew.cert && service crond reload`
+ * Check for cert renewal every day with `crontab * 3 * * * /etc/cron.daily/renew.sh && service crond reload`
  * Generate Diffie-Helman parameters with `sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048`
 
 3. Install Nginx
@@ -31,6 +31,37 @@ This is a simple HTTPS-only Nginx webserver configuration using Let's Encrypt ce
 ### Notes
  * The gzip_static module is already on, so [pre-compress your content](http://www.cambus.net/serving-precompressed-content-with-nginx-and-zopfli/) for better performance
  * Let's Encrypt currently installs certs at [/etc/letsencrypt/live](https://letsencrypt.readthedocs.io/en/latest/using.html#where-certs)
+
+### Where to Find Everything
+root/
+ │
+ ├──/etc
+ │     ├──/nginx
+ │     │     └──nginx.conf
+ │     │
+ │     ├──/ssl
+ │     │     └──certs/
+ │     │           └──dhparam.pem
+ │     │
+ │     ├──/letsencrypt
+ │     │     └──/live
+ │     │           └──example.com
+ │     │                 ├──privkey.pem
+ │     │                 ├──cert.pem
+ │     │                 ├──chain.pem
+ │     │                 └──fullchain.pem
+ │     │
+ │     └──/cron.daily
+ │           └──renew.sh
+ │
+ ├──/var
+ │     └──/log
+ │           └──/nginx
+ │                 ├──access.log
+ │                 └──error.log
+ │
+ └──/srv
+       └──/example.com     (this is the webroot)
 
 ### Contributing
 Open an issue if you encounter any problems or have any suggestions; I'm also open to pull requests *if they have a clear description of the changes they introduce and their purpose*.
