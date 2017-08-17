@@ -1,0 +1,85 @@
+
+### User Input ###
+
+# name server
+hostnamectl set-hostname
+
+# $host address
+# $user
+
+### Update Everything, Install Core Programs ###
+sudo yum -y update
+sudo yum -y install epel-release
+sudo yum -y install git
+sudo yum -y install rsync
+sudo yum -y install audit2why
+sudo yum clean all
+
+### Add a Non-Root User w/ Sudo Privileges ###
+sudo adduser $user
+passwd $user
+sudo gpasswd -a $user wheel
+
+### Harden SSH ###
+
+# LOCALLY, DO IT LOCALLY DANGIT generate a new keypair
+ssh-copy-id -i "~/.ssh/id_ed25519" user@host
+
+# Regenerate host keys
+rm /etc/ssh/ssh_host_*key*
+ssh-keygen -t ed25519 -f ssh_host_ed25519_key -N "" < /dev/null
+
++++ ssh config sync
++++ sshd config sync
++++ /etc/ssh/banner sync
+
+service sshd restart
+
+# NGINX
+sudo yum install -y nginx
+sudo systemctl enable nginx
++++ nginx config sync
+
+sudo yum install -y certbot
+certbot certonly --standalone -d $example.com -d www.$example.com
+sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
++++ cronjob running certbot renew
+
+
+#######
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at
+   /etc/letsencrypt/live/annonasoftware.com/fullchain.pem. Your cert
+   will expire on 2017-11-05. To obtain a new or tweaked version of
+   this certificate in the future, simply run certbot again. To
+   non-interactively renew *all* of your certificates, run "certbot
+   renew"
+ - Your account credentials have been saved in your Certbot
+   configuration directory at /etc/letsencrypt. You should make a
+   secure backup of this folder now. This configuration directory will
+   also contain certificates and private keys obtained by Certbot so
+   making regular backups of this folder is ideal.
+ - If you like Certbot, please consider supporting our work by:
+#######
+
+
+-sync current jekyll output
+
+-what to do about let's encrypt credentials/ssh keys/etc
+
+port knocking or otherwise hiding the ssh port (knockd, knock client)
+
+
+(ssh aliases?)
+
+ssh storm? key management solutions? backup private keys with QR codes?
+also: what's up with let's encrypt account nonsense?
+
+# clean up
+sudo yum clean all
+
+# test and print results
+test: iptables, nginx, git, nmap, ssh, etc
+print: users added and status
+email results and server alias info

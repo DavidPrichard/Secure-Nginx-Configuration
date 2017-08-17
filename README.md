@@ -77,3 +77,5 @@ Open an issue if you encounter any problems or have any suggestions; I'm also op
  * Even though it doesn't yet work on CentOS Nginx
 * [Benjamin Esham's guide](https://esham.io/2016/01/ocsp-stapling) to OCSP stapling with Let's Encrypt
 * Digital Ocean's [Nginx Troubleshooting Guide](https://www.digitalocean.com/community/tutorials/how-to-troubleshoot-common-site-issues-on-a-linux-server)
+* SSH hardening guides from [Mozilla](https://wiki.mozilla.org/Security/Guidelines/OpenSSH), Stribka's [famous guide](https://stribika.github.io/2015/01/04/secure-secure-shell.html), and a helpful [blog post](https://blog.g3rt.nl/upgrade-your-ssh-keys.html) from Gert van Dijk.
+* Key-length [recommendations]((https://www.keylength.com/en/compare/)) from various organizations, organized by BlueKrypt/Damien Giry.
