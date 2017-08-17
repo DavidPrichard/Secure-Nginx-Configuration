@@ -3,7 +3,7 @@
 # get super-user permission upfront
  sudo -v
 
- echo "If there are any errors that cause you to lose ssh access, just restart the server."
+ printf "If there are any errors that cause you to lose ssh access, just restart the server."
 
 # Flush all previous rules
  iptables --flush
@@ -57,4 +57,4 @@
  # Show resulting rules
  ip6tables -L -v
 
- echo "To save iptables rules so that they persist through restarts, run \"/sbin/service iptables save\" as root.
+ printf "To save iptables rules so that they persist through restarts, run \"/sbin/service iptables save\" as root."
