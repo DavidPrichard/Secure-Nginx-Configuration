@@ -83,3 +83,10 @@ sudo yum clean all
 test: iptables, nginx, git, nmap, ssh, etc
 print: users added and status
 email results and server alias info
+
+If everything is good, still need to enable HSTS / preloading in the nginx.conf
+and then submit the site to the preloading list
+Even then, there are still a few vulnerabilities:
+- DNS (use something like cloudflare or another DNS provider with DNSSEC)
+   note: this is _partly_ mitigated by HSTS + preloading, but not 100%
+- Lack of HPKP: but it's really not worth it for us
