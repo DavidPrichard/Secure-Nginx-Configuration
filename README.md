@@ -37,16 +37,19 @@ This is a simple HTTPS-only Nginx webserver configuration using Let's Encrypt ce
 root/
  │
  ├──/etc
+ │     ├──/yum.repos.d
+ │     │     └──nginx.repo
+ │     │
  │     ├──/nginx
  │     │     └──nginx.conf
  │     │
  │     ├──/ssl
- │     │     └──certs/
+ │     │     └──/certs
  │     │           └──dhparam.pem
  │     │
  │     ├──/letsencrypt
  │     │     └──/live
- │     │           └──example.com
+ │     │           └──/example.com
  │     │                 ├──privkey.pem
  │     │                 ├──cert.pem
  │     │                 ├──chain.pem
