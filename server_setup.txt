@@ -56,6 +56,12 @@ sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 +++ setup cronjob running certbot renew
 
++++ automatically install security updates w/ yum-cron
+
+sudo yum install -y yum-cron;
+# steps here: https://unix.stackexchange.com/a/356144
+# except: only security updates. larger updates should be done manually
+
 
 #######
 IMPORTANT NOTES:
