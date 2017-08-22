@@ -72,7 +72,7 @@ root/
 Open an issue if you encounter any problems or have any suggestions; I'm also open to pull requests *if they have a clear description of the changes they introduce and their purpose*.
 
 ### Credit
-* Nginx TLS configuration info taken from [Mozilla's SSL Config Generator](https://mozilla.github.io/server-side-tls/ssl-config-generator/) and [Cipherlist](https://cipherli.st/)
+* Nginx TLS configuration info taken from [Mozilla's SSL Config Generator](https://mozilla.github.io/server-side-tls/ssl-config-generator/), [Cipherlist](https://cipherli.st/), and [SafeCurves](https://safecurves.cr.yp.to/).
 * Security headers and other best practices from [OWASP](https://www.owasp.org/)
 * Detailed server TLS configuration testing from [SSL Labs](https://www.ssllabs.com/ssltest/)
 * The aging, but excellent [Ars guide to server configuration](http://arstechnica.com/gadgets/2012/11/how-to-set-up-a-safe-and-secure-web-server/)
