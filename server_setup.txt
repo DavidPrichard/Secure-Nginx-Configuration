@@ -50,8 +50,8 @@ sudo yum -y update && sudo yum -y install nginx
 sudo systemctl enable nginx
 +++ nginx config sync
 
-sudo yum install -y certbot
-certbot certonly --standalone -d $example.com -d www.$example.com
+sudo yum install -y certbot-nginx
+certbot certonly --nginx -d $example.com -d www.$example.com
 sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 +++ setup cronjob running certbot renew
