@@ -1,20 +1,18 @@
 
 ### User Input ###
 
-# name server
-hostnamectl set-hostname
+$hostname
+$username
 
-# $host address
-# $user
+# name server
+hostnamectl set-hostname $hostname
+
 
 ### Update Everything, Install Core Programs ###
 sudo yum -y update
 sudo yum -y install epel-release
-sudo yum -y install git
-sudo yum -y install wget
-sudo yum -y install rsync
-sudo yum -y install tree
-sudo yum -y install audit2why
+sudo yum -y install git wget rsync tree # critical tools
+sudo yum -y install policycoreutils-python # audit2why etc
 sudo yum clean all
 
 ### Add a Non-Root User w/ Sudo Privileges ###
@@ -24,12 +22,13 @@ sudo gpasswd -a $user wheel
 
 ### Harden SSH ###
 
-# LOCALLY, DO IT LOCALLY DANGIT generate a new keypair
-ssh-copy-id -i "~/.ssh/id_ed25519" user@host
+# Regenerate host keys (this bit is executed back on the server)
+sudo rm /etc/ssh/ssh_host_*key*
+sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N "" < /dev/null
 
-# Regenerate host keys
-rm /etc/ssh/ssh_host_*key*
-ssh-keygen -t ed25519 -f ssh_host_ed25519_key -N "" < /dev/null
+# LOCALLY, DO IT LOCALLY DANGIT
+ssh-copy-id -i ~/.ssh/id_ed25519 user@host
+
 
 +++ ssh config sync
 +++ sshd config sync
@@ -37,24 +36,25 @@ ssh-keygen -t ed25519 -f ssh_host_ed25519_key -N "" < /dev/null
 
 service sshd restart
 
+
 # NGINX
 wget http://nginx.org/keys/nginx_signing.key
 sudo rpm --import nginx_signing.key
-sudo nano /etc/yum.repos.d/nginx.repo
-  [nginx.org]
-  name=nginx.org repo
-  baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/
-  gpgcheck=1
-  enabled=1
+sudo nano /etc/yum.repos.d/nginx.repo # then paste contents of local nginx.repo into this one
+
 sudo yum -y update && sudo yum -y install nginx
 sudo systemctl enable nginx
 +++ nginx config sync
-
-sudo yum install -y certbot-nginx
-certbot certonly --nginx -d $example.com -d www.$example.com
 sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
-+++ setup cronjob running certbot renew
+
+# Certbot + Nginx Plugin
+sudo yum install -y certbot-nginx
+certbot certonly --standalone -d $example.com -d www.$example.com
+
+sudo systemctl start nginx
+
++++ setup cronjob running certbot renew (w/ --nginx option)
 
 +++ automatically install security updates w/ yum-cron
 
