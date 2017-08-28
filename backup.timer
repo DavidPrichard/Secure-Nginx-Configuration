@@ -1,0 +1,11 @@
+[Unit]
+Description=Perform system backup
+
+[Timer]
+# Daily from 8-9am UTC
+# So: 1am PST at the earliest, 5am EST at the latest
+OnCalendar=08:00 UTC
+RandomizedDelaySec=3600
+
+[Install]
+WantedBy=timers.target
