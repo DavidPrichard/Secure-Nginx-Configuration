@@ -1,0 +1,12 @@
+[Unit]
+Description=Renewal of Let's Encrypt's certificates
+
+[Timer]
+# Tuesdays, between 8-9am UTC
+# So: 1am PST at the earliest, 5am EST at the latest
+OnCalendar=Tue 08:00 UTC
+RandomizedDelaySec=3600
+Persistent=true
+
+[Install]
+WantedBy=timers.target
