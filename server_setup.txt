@@ -1,17 +1,19 @@
 
 ### User Input ###
 
-$hostname
-$username
+$host      # public IP or domain
+$hostname  # name you want for the server
+$user      # (s)
+$email     # for company
 
-# name server
+# Name the Server
 hostnamectl set-hostname $hostname
 
 
 ### Update Everything, Install Core Programs ###
 sudo yum -y update
 sudo yum -y install epel-release
-sudo yum -y install git wget rsync tree # critical tools
+sudo yum -y install git rsync nmap tree # critical tools
 sudo yum -y install policycoreutils-python # audit2why etc
 sudo yum clean all
 
@@ -26,7 +28,7 @@ sudo gpasswd -a $user wheel
 sudo rm /etc/ssh/ssh_host_*key*
 sudo ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N "" < /dev/null
 
-# LOCALLY, DO IT LOCALLY DANGIT
+# IMPORTANT, EVERYONE NEEDS TO DO THIS LOCALLY
 ssh-copy-id -i ~/.ssh/id_ed25519 user@host
 
 
@@ -37,9 +39,7 @@ ssh-copy-id -i ~/.ssh/id_ed25519 user@host
 service sshd restart
 
 
-# NGINX
-wget http://nginx.org/keys/nginx_signing.key
-sudo rpm --import nginx_signing.key
+### Install NGINX ###
 sudo nano /etc/yum.repos.d/nginx.repo # then paste contents of local nginx.repo into this one
 
 sudo yum -y update && sudo yum -y install nginx
@@ -50,34 +50,51 @@ sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 # Certbot + Nginx Plugin
 sudo yum install -y certbot-nginx
-certbot certonly --standalone -d $example.com -d www.$example.com
+
+certbot certonly --standalone --must-staple -d example.com -d www.example.com -q --agree-tos --no-eff-email -email $email
 
 sudo systemctl start nginx
 
-+++ setup cronjob running certbot renew (w/ --nginx option)
 
-+++ automatically install security updates w/ yum-cron
+### Backup, Updates, Cert Renewal ###
+
+# Backups
+
+# https://nairobilug.or.ke/2015/06/cron-systemd-timers.html
+
+# cp backup.service to /etc/systemd/system/backup.service
+# cp backup.timer   to /etc/systemd/system/backup.timer
+sudo systemctl enable backup.timer
+sudo systemctl start  backup.timer
+
+Locations:
+/etc/letsencrypt
+/etc/nginx/nginx.conf
+/srv/example.com
+
+# Updates
 
 sudo yum install -y yum-cron;
 # steps here: https://unix.stackexchange.com/a/356144
-# except: only security updates. larger updates should be done manually
+# note: only security updates. larger updates should be done manually
 
+# Cert Renewal
 
-#######
-IMPORTANT NOTES:
- - Congratulations! Your certificate and chain have been saved at
-   /etc/letsencrypt/live/annonasoftware.com/fullchain.pem. Your cert
-   will expire on 2017-11-05. To obtain a new or tweaked version of
-   this certificate in the future, simply run certbot again. To
-   non-interactively renew *all* of your certificates, run "certbot
-   renew"
- - Your account credentials have been saved in your Certbot
-   configuration directory at /etc/letsencrypt. You should make a
-   secure backup of this folder now. This configuration directory will
-   also contain certificates and private keys obtained by Certbot so
-   making regular backups of this folder is ideal.
- - If you like Certbot, please consider supporting our work by:
-#######
+# cp renew-certs.service to /etc/systemd/system/renew-certs.service
+# cp renew-certs.timer   to /etc/systemd/system/renew-certs.timer
+sudo systemctl enable renew-certs.timer
+sudo systemctl start  renew-certs.timer
+
+# still needs a script/bin to actually run
+# certbot renew --nginx --must-staple -d example.com -d www.example.com -q --agree-tos --no-eff-email -email $email
+
+# Confirm it's workin
+
+sudo systemctl list-timers --all # make sure it's workin
+
+# Automatic updates
+# note: using yum-cron and security-only options
+# full updates should be done manually, since risk of breakage
 
 
 -sync current jekyll output
